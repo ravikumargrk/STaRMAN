@@ -1,0 +1,6 @@
+flask
+flask-restful
+sqlalchemy
+pymysql
+cloud-sql-python-connector
+python-dateutil

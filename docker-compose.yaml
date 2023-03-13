@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    container_name: test-python-server
+    # command: python main.py
+    ports:
+      - 8080:8080
+

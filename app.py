@@ -2,10 +2,12 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 import os
 
+from resources import onboardTool
+from resources import ingest
+
 app = Flask(__name__)
 api = Api(app)
 
-from resources import onboardTool, ingest
 
 # ENV_LIST = [
 #     'PORT',

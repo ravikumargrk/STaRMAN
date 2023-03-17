@@ -1,0 +1,12 @@
+unitId,factor,bias,sourceUnit,comment
+1,1,0,No conversion,default - No conversion
+2,98066.5,0,kg/cm2,kg/cm2 to Pasacal
+3,2.78E-04,0.00E+00,kg/h,mass flow from kg/h to kg/s
+4,6894.76,0,psi,psi to Pasacal
+5,98066.5,101325,kg/cm2-guage,kg/cm2 (guage pressure) to Pasacal (absolute pressure)
+6,-1,100,% opening,%opening to % closing (y = 100-x)
+7,1,273.15,degC,degC to Kelvin
+8,60,0,min,Minutes to seconds
+9,3600,0,hr,Hours to seconds
+10,4184,0,kcal/kg,kcal/kg to J/kg
+11,1000,0,Ton,Ton to kg

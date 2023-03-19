@@ -62,12 +62,11 @@ class dataIngestor(Resource):
         else:
             siteTimeZone = result['timeZone']
             metaData = result['metaData']
-         
+        
         # finally write data
         result = ingest.write(orderId, data, metaData, unitConversionReference)
         # return result !
         # call other api's from here !
-        
         return result
     
 api.add_resource(onboarding, '/onboarding')

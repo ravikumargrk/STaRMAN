@@ -34,12 +34,14 @@ TEMPLATE_PAYLOAD = {
 
 ORDER_DEFAULT_KEYS = ['orderId', 'dateModified', 'site', 'unit', 'timeZone', 'metaData', 'fixedData']
 
-def processNewOrder(data:dict):
-    # set up
-    client = pymongo.MongoClient(DB_ADDR)
-    db = client[DB_NAME]
-    orders = db['orders']
+client = pymongo.MongoClient(DB_ADDR)
+db = client[DB_NAME]
+orders = db['orders']
 
+def processNewOrder(data:dict):
+    global db, orders, client
+    # set up
+    
     if 'orderId' not in data:
         return {
             'log': 'Invalid schema. Refer schema for proper implementation.',
@@ -63,3 +65,27 @@ def processNewOrder(data:dict):
         'status': status
     }
 
+def getOrderDetails(orderId:int):
+    global db, orders, client
+    result = {}
+    try:
+        insertResult = orders.find_one(filter={'orderId':orderId})
+        resultList = [x for x in insertResult]
+        data = resultList[0]
+        result.update(
+            {
+                'timeZone'  : data['timeZone'],
+                'metaData'  : data['metaData'],
+                'fixedData' : data['fixedData'],
+            }
+        )
+        
+    except:
+        log = '\n' + traceback.format_exc()
+        status = False
+    
+    return {
+        'log': log,
+        'status': status,
+        'data' : data
+    }

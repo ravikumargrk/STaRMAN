@@ -65,19 +65,15 @@ def processNewOrder(data:dict):
         'status': status
     }
 
-def getOrderDetails(orderId:int):
+def getOrderDetails(orderId:int, keys:list):
     global db, orders, client
     result = {}
     try:
-        insertResult = orders.find_one(filter={'orderId':orderId})
+        insertResult = orders.find_one({'orderId':orderId}, keys)
         resultList = [x for x in insertResult]
         data = resultList[0]
         result.update(
-            {
-                'timeZone'  : data['timeZone'],
-                'metaData'  : data['metaData'],
-                'fixedData' : data['fixedData'],
-            }
+            {key:data[key] for key in keys}
         )
         
     except:
@@ -87,5 +83,8 @@ def getOrderDetails(orderId:int):
     return {
         'log': log,
         'status': status,
-        'data' : data
+        'data' : result
     }
+
+def getCommonData():
+    pass

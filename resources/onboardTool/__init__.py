@@ -37,6 +37,7 @@ ORDER_DEFAULT_KEYS = ['orderId', 'dateModified', 'site', 'unit', 'timeZone', 'me
 client = pymongo.MongoClient(DB_ADDR)
 db = client[DB_NAME]
 orders = db['orders']
+ucr = db['ucr']
 
 def processNewOrder(data:dict):
     global db, orders, client
@@ -66,6 +67,9 @@ def processNewOrder(data:dict):
     }
 
 def getOrderDetails(orderId:int, keys:list):
+    """
+    keys = ['timeZone', 'metaData', 'fixedData']
+    """
     global db, orders, client
     result = {}
     try:
@@ -86,5 +90,21 @@ def getOrderDetails(orderId:int, keys:list):
         'data' : result
     }
 
-def getCommonData():
-    pass
+def getUCR():
+    global db, ucr, client
+    result = {}
+    status = True
+    log = ''
+    try:
+        result = ucr.find({}, ['unitId','factor', 'bias'])
+        ucrList = [x for x in result]
+        data = {rec['unitId']:{'factor': rec['factor'], 'bias': rec['bias']} for rec in ucrList}
+    except:
+        log = '\n' + traceback.format_exc()
+        status = False
+    return {
+        'log': log,
+        'status': status,
+        'data' : data
+    }
+    

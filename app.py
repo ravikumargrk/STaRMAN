@@ -42,65 +42,31 @@ class dataIngestor(Resource):
         data:dict = request.get_json()
         
         # first get common data.
-        result = ingest.getCommonData()
+        result = onboardTool.getUCR()
         if not result['status']:
             return {
                 'log': result['log'],
                 'status': result['status']
             }
         else:
-            unitsReference = result['unitsReference']
-            timeZonesByOrderId = result['timeZonesByOrderId']
+            unitConversionReference = result['data']
         
         # now get meta data.
         orderId = int(data['orderId'])
-        result = ingest.getSiteMeta(orderId)
+        result = onboardTool.getOrderDetails(orderId, ['timeZone', 'metaData'])
         if not result['status']:
             return {
                 'log': result['log'],
                 'status': result['status']
             }
         else:
-            siteMetaData = result['siteMetaData']
-            metaDataObject = result['metaDataObject']
-        
-        # now pre - process the data
-        result = ingest.dataPreProcessor(data, siteMetaData, orderId, unitsReference, timeZonesByOrderId)
-        if not result['status']:
-            return {
-                'log': result['log'],
-                'status': result['status']
-            }
-        else:
-            record = result['data']
-        
+            siteTimeZone = result['timeZone']
+            metaData = result['metaData']
+         
         # finally write data
-        result = ingest.writeSingleRecord(record, metaDataObject, orderId)
+        result = ingest.write(orderId, data, metaData, unitConversionReference)
         # return result !
         # call other api's from here !
-        result.update({'data': str(record)})
-        return result
-
-    def patch(self):
-        # request.json
-        data:dict = request.get_json()
-        timeStamp = data['t']
-        orderId = int(data['orderId'])
-
-        # now get meta data.
-        orderId = int(data['orderId'])
-        result = ingest.getSiteMeta(orderId)
-        if not result['status']:
-            return {
-                'log': result['log'],
-                'status': result['status']
-            }
-        else:
-            # siteMetaData = result['siteMetaData']
-            metaDataObject = result['metaDataObject']
-
-        record = {key: data[key] for key in data if key not in ['t']}
-        result = ingest.updateSingleRecord(timeStamp, record, metaDataObject, orderId)
         
         return result
     

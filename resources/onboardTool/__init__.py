@@ -4,8 +4,8 @@ import os
 import pymongo
 import traceback
 
-DB_NAME = os.environ.get('DB_NAME')
-DB_ADDR = os.environ.get('DB_ADDR')
+MGD_NAME = os.environ.get('MGD_NAME')
+MGD_ADDR = os.environ.get('MGD_ADDR')
 
 TEMPLATE_PAYLOAD = {
     'orderId': 1,
@@ -34,8 +34,8 @@ TEMPLATE_PAYLOAD = {
 
 ORDER_DEFAULT_KEYS = ['orderId', 'dateModified', 'site', 'unit', 'timeZone', 'metaData', 'fixedData']
 
-client = pymongo.MongoClient(DB_ADDR)
-db = client[DB_NAME]
+client = pymongo.MongoClient(MGD_ADDR)
+db = client[MGD_NAME]
 orders = db['orders']
 ucr = db['ucr']
 

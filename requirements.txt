@@ -1,8 +1,4 @@
 flask
 flask-restful
-sqlalchemy
-pymysql
-cloud-sql-python-connector
-python-dateutil
+pymongo
 influxdb-client
-flightsql-dbapi

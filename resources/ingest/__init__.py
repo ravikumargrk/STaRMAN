@@ -11,6 +11,12 @@ IFD_ADDR = f"https://{IFD_HOST}"
 write_client = influxdb_client.InfluxDBClient(url=IFD_ADDR, token=IFD_TOKN, org=IFD_ORGN)
 write_api = write_client.write_api(write_options=SYNCHRONOUS)
 
+TEMPLATE_PAYLOAD = {
+    'orderId'   :   0,
+    'key1'      :   'value1',
+    'key2'      :   'value2'
+}
+
 def write(orderId:int, data:dict, metaData:dict, unitConversionReference:dict):
     formattedData = {}
     status = True

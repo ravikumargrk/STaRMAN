@@ -8,13 +8,6 @@ from resources import ingest
 app = Flask(__name__)
 api = Api(app)
 
-# ENV_LIST = [
-#     'PORT',
-#     'INSTANCE_CONNECTION_NAME',
-#     'DB_USER',
-#     'DB_PASS'
-# ]
-
 class onboarding(Resource):
     def get(self):
         return {

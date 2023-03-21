@@ -42,6 +42,8 @@ ucr = db['ucr']
 def processNewOrder(data:dict):
     global db, orders, client
     # set up
+    log = ''
+    status = True
     
     if 'orderId' not in data:
         return {

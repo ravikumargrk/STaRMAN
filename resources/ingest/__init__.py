@@ -13,8 +13,8 @@ write_api = write_client.write_api(write_options=SYNCHRONOUS)
 
 TEMPLATE_PAYLOAD = {
     'orderId'   :   0,
-    'key1'      :   'value1',
-    'key2'      :   'value2'
+    'key1'      :   420,
+    'key2'      :   69
 }
 
 def write(orderId:int, data:dict, metaData:dict, unitConversionReference:dict):

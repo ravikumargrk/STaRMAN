@@ -94,10 +94,17 @@ def getOrderDetails(orderId:int, keys:list):
     status = True
     try:
         insertResult = orders.find_one({'orderId':orderId}, keys)
-        result.update(
-            {key:insertResult[key] for key in keys}
-        )
-        
+        if (insertResult==None):
+            raise NotImplementedError(f'Order with OrderId={orderId} does not exist.')
+        else:
+            # check if keys exist in result
+            for key in keys:
+                if key not in insertResult:
+                    raise NotImplementedError(f'Order with OrderId={orderId} does not have {key}.')
+            
+            result.update(
+                {key:insertResult[key] for key in keys}
+            )
     except:
         log = '\n' + traceback.format_exc()
         status = False

@@ -90,6 +90,8 @@ def getOrderDetails(orderId:int, keys:list):
     """
     global db, orders, client
     result = {}
+    log = ''
+    status = True
     try:
         insertResult = orders.find_one({'orderId':orderId}, keys)
         result.update(

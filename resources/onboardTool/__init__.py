@@ -53,7 +53,7 @@ ORDER_DEFAULT_KEYS = ['orderId', 'dateModified', 'site', 'unit', 'timeZone', 'me
 client = pymongo.MongoClient(MGD_ADDR)
 db = client[MGD_NAME]
 orders = db['orders']
-ucr = db['ucr']
+ucr = db['unitConversionReference']
 
 def processNewOrder(data:dict):
     global db, orders, client
@@ -117,6 +117,8 @@ def getUCR():
         result = ucr.find({}, ['unitId','factor', 'bias'])
         ucrList = [x for x in result]
         data = {rec['unitId']:{'factor': rec['factor'], 'bias': rec['bias']} for rec in ucrList}
+        if not len(data):
+            raise RuntimeError('collection: unitConversionReference does not exist.')
     except:
         log = '\n' + traceback.format_exc()
         status = False

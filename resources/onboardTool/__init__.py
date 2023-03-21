@@ -110,7 +110,7 @@ def getOrderDetails(orderId:int, keys:list):
 
 def getUCR():
     global db, ucr, client
-    result = {}
+    data = {}
     status = True
     log = ''
     try:

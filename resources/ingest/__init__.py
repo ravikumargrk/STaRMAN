@@ -46,6 +46,7 @@ def write(orderId:int, data:dict, metaData:dict, unitConversionReference:dict):
         
     except:
         log += traceback.format_exc()
+        log += '\n' + str(unitConversionReference)
         status = False
 
     return {

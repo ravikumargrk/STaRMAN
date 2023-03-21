@@ -53,8 +53,8 @@ class dataIngestor(Resource):
                 'status': result['status']
             }
         else:
-            siteTimeZone = result['timeZone']
-            metaData = result['metaData']
+            siteTimeZone = result['data']['timeZone'] # will use this when implementing ASYNCHRONOUS write is used.
+            metaData = result['data']['metaData']
         
         # finally write data
         result = ingest.write(orderId, data, metaData, unitConversionReference)

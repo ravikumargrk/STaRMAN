@@ -72,9 +72,10 @@ def processNewOrder(data:dict):
         orderDetails = {key:data[key] for key in ORDER_DEFAULT_KEYS if key in data}
         orderDetails.update({'dateModified': datetime.now().isoformat()})
         insertResult = orders.replace_one({'orderId': orderId}, orderDetails, upsert=True)
-        if insertResult.modified_count < 1:
-            log += '\n' + 'Order details not updated.'
-            status = False
+
+        # if insertResult.modified_count < 1: # this shit ain't working.
+        #     log += '\n' + 'Order details coult not be updated.'
+        #     status = False
     except:
         log = '\n' + traceback.format_exc()
         status = False

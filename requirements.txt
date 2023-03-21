@@ -1,4 +1,4 @@
-flask
-flask-restful
-pymongo
-influxdb-client
+Flask==2.2.3
+Flask-RESTful==0.3.9
+pymongo==4.3.3
+influxdb-client==1.36.1

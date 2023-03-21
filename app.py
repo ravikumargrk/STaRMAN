@@ -24,7 +24,7 @@ class onboarding(Resource):
         if not result['status']:
             app.logger.error('Error in onboardingTool.processNewOrder:' + result['log'])
         else:
-            app.logger.info(f'{request.remote_addr} has onboarded a new site or edited an existing site.')
+            app.logger.info('{} has onboarded a new site or edited an existing site.'.format(request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)))
         return result
 
 class dataIngestor(Resource):
@@ -42,7 +42,7 @@ class dataIngestor(Resource):
         # first get common data.
         result = onboardTool.getUCR()
         if not result['status']:
-            app.logger.error('Error in onboardTool.getUCR' + result['log'])
+            app.logger.error('@ onboardTool.getUCR' + result['log'])
             return {
                 # 'log': result['log'],
                 # 'status': result['status']
@@ -62,7 +62,7 @@ class dataIngestor(Resource):
 
         result = onboardTool.getOrderDetails(orderId, ['timeZone', 'metaData'])
         if not result['status']:
-            app.logger.error('Error in onboardTool.getOrderDetails' + result['log'])
+            app.logger.error('@ onboardTool.getOrderDetails' + result['log'])
             return {
                 # 'log': result['log'],
                 # 'status': result['status']
@@ -76,7 +76,7 @@ class dataIngestor(Resource):
         # return result !
         # call other api's from here !
         if not result['status']:
-            app.logger.error('Error in ingestion' + result['log'])
+            app.logger.error('@ ingestion' + result['log'])
 
         return {}
     
@@ -84,4 +84,4 @@ api.add_resource(onboarding, '/onboarding')
 api.add_resource(dataIngestor, '/ingestion')
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

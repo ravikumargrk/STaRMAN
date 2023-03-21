@@ -92,9 +92,8 @@ def getOrderDetails(orderId:int, keys:list):
     result = {}
     try:
         insertResult = orders.find_one({'orderId':orderId}, keys)
-        resultList = [x for x in insertResult]
         result.update(
-            {key:resultList[key] for key in keys}
+            {key:insertResult[key] for key in keys}
         )
         
     except:

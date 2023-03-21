@@ -12,14 +12,30 @@ TEMPLATE_PAYLOAD = {
     'site': '',
     'unit':'',
     'timeZone':'',
-    'metaData': [
-        {'standardTag': 'XXXXX1_XXX_XXXXX_XXXX1', 'description': '', 'dataTagId': '', 'unitId': 1},
-        {'standardTag': 'XXXXX1_XXX_XXXXX_XXXX2', 'description': '', 'dataTagId': '', 'unitId': 1},
-    ],
-    'fixedData':[
-        {'standardTag': 'XXXXX2_XXX_XXXXX_XXXX1', 'description': '', 'value': 0.00, 'unitId': 1},
-        {'standardTag': 'XXXXX2_XXX_XXXXX_XXXX2', 'description': '', 'value': 0.00, 'unitId': 1}
-    ]
+    'metaData': {
+        'XXXXX1_XXX_XXXXX_XXXX1': {
+            'description': 'some important tag for important shit',
+            'dataTagId': '<tag using which data comes through from site>',
+            'unitId': 2
+        },
+        'XXXXX1_XXX_XXXXX_XXXX1': {
+            'description': 'some other important tag for other important shit',
+            'dataTagId': '<tag using which data comes through from site>',
+            'unitId': 2
+        }
+    },
+    'fixedData':{
+        'XXXXX2_XXX_XXXXX_XXXX1': {
+            'description': 'some important tag for important shit',
+            'value': 'value in unitID that customer/operator will set',
+            'unitId': 7
+        },
+        'XXXXX2_XXX_XXXXX_XXXX2': {
+            'description': 'some other important tag for other important shit',
+            'value': 'value in unitID that customer/operator will set',
+            'unitId': 2
+        }
+    }
 }
 
 # orders table scehma
@@ -77,9 +93,8 @@ def getOrderDetails(orderId:int, keys:list):
     try:
         insertResult = orders.find_one({'orderId':orderId}, keys)
         resultList = [x for x in insertResult]
-        data = resultList[0]
         result.update(
-            {key:data[key] for key in keys}
+            {key:resultList[key] for key in keys}
         )
         
     except:

@@ -35,7 +35,7 @@ class dataIngestor(Resource):
     #             'schema': ingest.TEMPLATE_PAYLOAD
     #         }
     
-    def post(self):
+    def post(self, orderId):
         # request.json
         data:dict = request.get_json()
         
@@ -50,15 +50,15 @@ class dataIngestor(Resource):
         else:
             unitConversionReference = result['data']
         
-        # now get meta data.
-        if 'orderId' not in data:
-            app.logger.error('Data has been sent without an orderId')
-            return {
-                # 'log': 'Data has been sent without an orderId',
-                # 'status': False
-            }
-        else:
-            orderId = int(data['orderId'])
+        # # now get meta data.
+        # if 'orderId' not in data:
+        #     app.logger.error('Data has been sent without an orderId')
+        #     return {
+        #         # 'log': 'Data has been sent without an orderId',
+        #         # 'status': False
+        #     }
+        # else:
+        #     orderId = int(data['orderId'])
 
         result = onboardTool.getOrderDetails(orderId, ['timeZone', 'metaData'])
         if not result['status']:
@@ -81,7 +81,7 @@ class dataIngestor(Resource):
         return {}
     
 api.add_resource(onboarding, '/onboarding')
-api.add_resource(dataIngestor, '/ingestion')
+api.add_resource(dataIngestor, '/ingestion/<int:orderId>')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

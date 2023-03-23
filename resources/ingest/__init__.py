@@ -29,14 +29,17 @@ def write(orderId:int, data:dict, metaData:dict, unitConversionReference:dict):
             bias = unitConversionReference[unitId]['bias']
 
             if dataTagId in data:
-                value = data[dataTagId]
-                value_si = value*factor + bias
-                formattedData.update(
-                    {
-                        standardTag: value_si
-                    }
-                )
-        
+                try:
+                    value = float(data[dataTagId])
+                    value_si = value*factor + bias
+                    formattedData.update(
+                        {
+                            standardTag: value_si
+                        }
+                    )
+                except:
+                    continue
+
         recordDict = {
             'measurement': f'orderId{orderId}',
             'fields'     : formattedData
